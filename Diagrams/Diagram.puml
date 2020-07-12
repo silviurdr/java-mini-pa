@@ -1,0 +1,69 @@
+@startuml
+
+
+title MiniPA Diagram
+
+
+package "com.codecool.minipa" {
+
+
+    together {
+
+        class Forum {
+                - allForumEntries: List<Topic>
+                - {static} forum: Forum
+                --
+                - Forum():
+                + getInstance(): Forum
+                + addTopic(Topic topic): void
+                + getAllForumEntries(): List<Topic>
+        }
+
+        abstract class Entry {
+            - creationDate: String
+            - id: int
+            - message: String
+            --
+            + Entry(String message): Entry
+            + getCreationDate: String
+            + getId: int
+            + setId: void
+            + getMessage: String
+            + setMessage: void
+        }
+
+    }
+
+    together {
+
+        class Topic extends Entry {
+
+            - topicComments: List<Comment>
+            + Topic(String title, String message): Topic
+            + getModeratedComments(): List<Comment>
+            + addComment(Comment comment): void
+            + getTopicComments(int id): List<Comment>
+        }
+
+
+        class Comment extends Entry {
+
+                    - moderated: boolean
+                    + Comment(String message): Comment
+                    + isModerated(): boolean
+                    + toggleModeration(): void
+                }
+
+
+    }
+
+Forum o- Entry : "               "
+Topic *- Comment : " "
+
+Forum -[hidden]-> Topic
+
+
+}
+
+
+@enduml
